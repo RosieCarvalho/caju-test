@@ -1,17 +1,16 @@
-
-import * as S from "./styles";
-import RegistrationCard from "../RegistrationCard";
+import * as S from './styles';
+import CandidateCard from '../CandidateCard';
+import { CandidatesContext } from '~/context/CandidatesContext';
+import { useContext } from 'react';
 
 const allColumns = [
-  { status: 'REVIEW', title: "Pronto para revisar" },
-  { status: 'APPROVED', title: "Aprovado" },
-  { status: 'REPROVED', title: "Reprovado" },
+  { status: 'REVIEW', title: 'Pronto para revisar' },
+  { status: 'APROVED', title: 'Aprovado' },
+  { status: 'REPROVED', title: 'Reprovado' },
 ];
+const Collumns = () => {
+  const { candidatesByStatus } = useContext(CandidatesContext);
 
-type Props = {
-  registrations?: any[];
-};
-const Collumns = (props: Props) => {
   return (
     <S.Container>
       {allColumns.map((collum) => {
@@ -22,12 +21,9 @@ const Collumns = (props: Props) => {
                 {collum.title}
               </S.TitleColumn>
               <S.CollumContent>
-                {props?.registrations?.map((registration) => {
+                {candidatesByStatus[collum.status]?.map((candidate) => {
                   return (
-                    <RegistrationCard
-                      data={registration}
-                      key={registration.id}
-                    />
+                    <CandidateCard candidate={candidate} key={candidate.id} />
                   );
                 })}
               </S.CollumContent>

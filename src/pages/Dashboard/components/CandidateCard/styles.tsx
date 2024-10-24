@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Card = styled.div`
   display: flex;
@@ -13,7 +13,7 @@ export const Card = styled.div`
   p {
     margin: 0;
   }
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 `;
 
 export const IconAndText = styled.div`
@@ -32,4 +32,13 @@ export const Actions = styled.div`
   svg {
     cursor: pointer;
   }
+`;
+
+export const ButtonToast = styled.div`
+  display: 'flex';
+  gap: 5;
+`;
+
+export const CustonToast = styled.div`
+  margin: 10;
 `;
