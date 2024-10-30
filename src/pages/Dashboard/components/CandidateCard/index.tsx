@@ -9,8 +9,8 @@ import {
 import { CandidatesContext } from '~/context/CandidatesContext';
 import { useContext } from 'react';
 import { CandidateProps } from './types';
-import toast from 'react-hot-toast';
 import { CandidateType, StatusType } from '~/pages/Dashboard/types';
+import ToastConfirm from '~/components/ToastConfirm';
 
 const buttonsActions = [
   {
@@ -30,57 +30,26 @@ const buttonsActions = [
   },
 ];
 
+const statusDescription = {
+  REVIEW: 'Revisar',
+  APROVED: 'Aprovar',
+  REPROVED: 'Reprovar',
+};
+
 const CandidateCard = ({ candidate }: CandidateProps) => {
   const { removeCandidate, updateStatus } = useContext(CandidatesContext);
 
   const confirmRemove = () => {
-    toast((t) => (
-      <S.CustonToast>
-        Tem certeza que deseja <b>deletar</b> o candidato?
-        <S.ButtonToast>
-          <ButtonSmall
-            bgcolor="rgb(155, 229, 155)"
-            onClick={() => {
-              toast.dismiss(t.id);
-              removeCandidate(candidate.id);
-            }}
-          >
-            Confirmar
-          </ButtonSmall>
-          <ButtonSmall
-            bgcolor="rgb(255, 145, 154)"
-            onClick={() => toast.dismiss(t.id)}
-          >
-            Cancelar
-          </ButtonSmall>
-        </S.ButtonToast>
-      </S.CustonToast>
-    ));
+    ToastConfirm(`Tem certeza que deseja deletar o candidato?`, () =>
+      removeCandidate(candidate.id),
+    );
   };
 
   const confirmUpdate = (candidate: CandidateType, status: StatusType) => {
-    toast((t) => (
-      <S.CustonToast>
-        Tem certeza que deseja <b>{status}</b> o candidato?
-        <S.ButtonToast>
-          <ButtonSmall
-            bgcolor="rgb(155, 229, 155)"
-            onClick={() => {
-              toast.dismiss(t.id);
-              updateStatus(candidate, status);
-            }}
-          >
-            Confirmar
-          </ButtonSmall>
-          <ButtonSmall
-            bgcolor="rgb(255, 145, 154)"
-            onClick={() => toast.dismiss(t.id)}
-          >
-            Cancelar
-          </ButtonSmall>
-        </S.ButtonToast>
-      </S.CustonToast>
-    ));
+    ToastConfirm(
+      `Tem certeza que deseja  ${statusDescription[status]} o candidato?`,
+      () => updateStatus(candidate, status),
+    );
   };
 
   const renderButtons = () => {

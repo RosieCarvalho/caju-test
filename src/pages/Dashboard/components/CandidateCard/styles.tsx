@@ -1,8 +1,21 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const animationCard = keyframes`
+	0% {
+		opacity: 0;
+		transform: translateX(40px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+`;
 
 export const Card = styled.div`
   display: flex;
   flex-direction: column;
+  animation: ${animationCard} 1s ease 0s 1 normal forwards;
   gap: 4px;
   border: 4px solid #fff;
   margin: 16px;

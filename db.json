@@ -1,14 +1,6 @@
 {
   "registrations": [
     {
-      "id": "1",
-      "admissionDate": "22/10/2023",
-      "email": "filipe@caju.com.br",
-      "employeeName": "Filipe Marins",
-      "status": "REPROVED",
-      "cpf": "78502275001"
-    },
-    {
       "id": "2",
       "admissionDate": "22/10/2023",
       "email": "jose@caju.com.br",
@@ -21,8 +13,40 @@
       "admissionDate": "22/10/2023",
       "email": "rose@caju.com.br",
       "employeeName": "rosie",
-      "status": "REVIEW",
+      "status": "APROVED",
       "cpf": "05614995302"
+    },
+    {
+      "id": "bf64",
+      "admissionDate": "22/10/2023",
+      "employeeName": "rosiene baltazar de carvalho",
+      "cpf": "05614895302",
+      "email": "mara.eduarda.alencar@gmail.com",
+      "status": "REPROVED"
+    },
+    {
+      "id": "427f",
+      "employeeName": "ronaldo cesar",
+      "cpf": "27794930030",
+      "email": "ronaldo@gmail.com",
+      "admissionDate": "28/10/2024",
+      "status": "REVIEW"
+    },
+    {
+      "id": "8222",
+      "employeeName": "maria do socorro",
+      "cpf": "68535235043",
+      "email": "tg@gmail.com",
+      "admissionDate": "31/10/2024",
+      "status": "APROVED"
+    },
+    {
+      "id": "3c45",
+      "employeeName": "mara a",
+      "cpf": "05614895302",
+      "email": "2323@gmail.com",
+      "admissionDate": "29/10/2024",
+      "status": "REPROVED"
     }
   ]
 }

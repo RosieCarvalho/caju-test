@@ -5,14 +5,17 @@ import { IconButton } from '~/components/Buttons/IconButton';
 import TextField from '~/components/TextField';
 import routes from '~/router/routes';
 import * as S from './styles';
-import { cpfMask } from '~/utils/cpfMask';
-import { useContext, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { CandidatesContext } from '~/context/CandidatesContext';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { isValidCPF } from '~/utils/isValidCpf';
+import { cpfMask } from '~/utils/cpfMask';
+import { cpfNoMask } from '~/utils/cpfNoMask';
+
 export const SearchBar = () => {
   const history = useHistory();
-  const [cpf, setCpf] = useState('');
-  const [errorInput, setErrorInput] = useState('');
 
   const { filterCandidateByCpf, collumnsCandidates, listCandidates } =
     useContext(CandidatesContext);
@@ -20,30 +23,56 @@ export const SearchBar = () => {
   const goToNewAdmissionPage = () => {
     history.push(routes.newUser);
   };
-  const handlechange = (e) => {
-    setCpf(e.target.value);
 
-    const cpfNoMack = e.target.value.replace(/\.|-/gm, '');
-    //melhorar a lógica de validação de cpf
-    if (cpfNoMack.length === 11) {
-      if (isValidCPF(cpfNoMack)) {
-        filterCandidateByCpf(cpfNoMack);
-        setErrorInput('');
-        return;
-      }
-      setErrorInput('CPF inválido');
+  const createUserFormSchema = z.object({
+    cpf: z.string().refine((cpf: string) => {
+      return isValidCPF(cpf);
+    }, 'Digite um cpf válido'),
+  });
+  const {
+    control,
+    trigger,
+    clearErrors,
+    formState: { errors, isValid },
+    getValues,
+  } = useForm({ resolver: zodResolver(createUserFormSchema) });
+
+  const findCandidates = (value: string) => {
+    if (cpfNoMask(value)?.length === 11) {
+      return trigger('cpf');
     }
-    collumnsCandidates();
+
+    if (!value) {
+      clearErrors('cpf');
+      collumnsCandidates();
+    }
   };
 
+  useEffect(() => {
+    filterCandidateByCpf(cpfNoMask(getValues('cpf')));
+  }, [isValid]);
   return (
     <S.Container>
-      <TextField
-        placeholder="Digite um CPF válido"
-        onChange={handlechange}
-        value={cpfMask(cpf)}
-        error={errorInput}
-      />
+      <Controller
+        name="cpf"
+        control={control}
+        render={({ field: { onChange } }) => {
+          return (
+            <TextField
+              placeholder="Digite um cpf válido"
+              label="CPF"
+              onChange={(e) => {
+                const { value } = e.target;
+                e.target.value = cpfMask(value);
+                onChange(e);
+                findCandidates(value);
+              }}
+              error={errors.cpf ? errors.cpf.message : ''}
+            />
+          );
+        }}
+      ></Controller>
+
       <S.Actions>
         <IconButton aria-label="refetch" onClick={() => listCandidates()}>
           <HiRefresh />

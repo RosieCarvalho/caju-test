@@ -1,6 +1,7 @@
 export function isValidCPF(cpf: string) {
+  if (!cpf) return;
   if (typeof cpf !== 'string') return false;
-  cpf = cpf.replace(/[\s.-]*/gim, '');
+  cpf = cpf.replace(/\.|-/gm, '').replace(/[\s.-]*/gim, '');
   if (
     !cpf ||
     cpf.length != 11 ||
